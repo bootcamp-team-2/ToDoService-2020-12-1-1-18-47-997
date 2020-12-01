@@ -33,4 +33,8 @@ export class ListTodoitemComponent implements OnInit {
   public selectTodoItem(id: number): void {
     this.router.navigate(['/detail', id]);
   }
+
+  public get errorMessage(): string {
+    return this.todoService.getAllFailMessage;
+  }
 }

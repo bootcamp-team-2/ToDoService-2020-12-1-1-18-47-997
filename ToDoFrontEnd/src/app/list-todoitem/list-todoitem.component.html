@@ -38,4 +38,7 @@
             <button (click)="selectTodoItem(todoItem.id)">Detail</button>
         </td>
     </tr>
+    <tr *ngIf="toDoItems.length === 0">
+        {{errorMessage}}
+    </tr>
 </table>

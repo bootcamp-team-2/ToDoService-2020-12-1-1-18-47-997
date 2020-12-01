@@ -13,19 +13,25 @@ export class TodoService {
   private currentId: number = 0;
 
   private _todoItems: Array<ToDoItem>;
+  public getAllFailMessage: string;
 
   constructor(private todoStore: TodoStoreService, private todoHttpService: TodoHttpService) {
     this._todoItems = todoStore.GetAll();
     this.updatingToDoItem = new ToDoItem(-1, "", "", false);
     this.selectedTodoItem = new ToDoItem(-1, "", "", false);
+    this.getAllFailMessage = '';
     // this.currentId = this.todoItems.length;
   }
 
   public get todoItems(): Array<ToDoItem> {
     const allTodoItem = new Array<ToDoItem>();
-    this.todoHttpService.getAll().subscribe(todoItems => {
-      allTodoItem.push(...todoItems);
-    });
+    this.todoHttpService.getAll().subscribe(
+      todoItems => {
+        allTodoItem.push(...todoItems);
+      },
+      error => {
+        this.getAllFailMessage = 'get all fail because of web api error';
+      });
     return allTodoItem;
   }
 
