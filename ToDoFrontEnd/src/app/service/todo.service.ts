@@ -61,7 +61,11 @@ export class TodoService {
     this.todoStore.Delete(id);
   }
 
-  public SetSelectedTodoItemId(id: number):void{
-    this.selectedTodoItem = this.todoStore.FindById(id);
+  public SetSelectedTodoItemId(id: number) {
+    this.todoHttpService.GetById(id).subscribe(() => this.getAllFailMessage = '' ,
+      error => this.getAllFailMessage = 'post all because webapi error'
+    );
+
+    // this.selectedTodoItem = this.todoStore.FindById(id);
   }
 }

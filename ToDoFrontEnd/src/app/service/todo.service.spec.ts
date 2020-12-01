@@ -110,9 +110,12 @@ describe('TodoService', () => {
     expect(service.todoItems.length).toBe(4);
   });
 
-  it('should get special todo item', () => {
-    const id = service.todoItems[4].id;
-    service.SetSelectedTodoItemId(id);
-    expect(service.selectedTodoItem.id).toBe(id);
+  it('should get special todo item via mock', () => {
+    const foundTodoItem = todoStoreService.FindById(1);
+    httpClientSpy.get.and.returnValue(of(foundTodoItem));
+    service.SetSelectedTodoItemId(1);
+
+    // then
+    expect(httpClientSpy.get.calls.count()).toBe(1, "one call");
   });
 });
