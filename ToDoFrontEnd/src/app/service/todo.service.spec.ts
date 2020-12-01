@@ -54,7 +54,7 @@ describe('TodoService', () => {
     service.todoItems;
     tick(50);
 
-    expect(service.getAllFailMessage).toBe('get all fail because of web api error');
+    expect(service.failMessage).toBe('get all fail because of web api error');
   }));
 
   it('should create todo-item via mockhttp', () => {
@@ -64,6 +64,20 @@ describe('TodoService', () => {
     
     expect(httpClientSpy.post.calls.count()).toBe(1);
   });
+
+  it('should process error response when create new todoitem fail', fakeAsync(() => {
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404, statusText: 'Not Found'
+    });
+
+    httpClientSpy.post.and.returnValue(asyncError(errorResponse));
+    const newItem = new ToDoItem(1, '', '', true);
+    service.Create(newItem);
+    tick(50);
+
+    expect(service.failMessage).toBe('create fail because of web api error');
+  }));
 
   it('should update todo-item', () => {
     const updateTodoItem = service.todoItems[0];

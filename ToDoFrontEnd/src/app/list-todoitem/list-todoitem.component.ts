@@ -35,6 +35,6 @@ export class ListTodoitemComponent implements OnInit {
   }
 
   public get errorMessage(): string {
-    return this.todoService.getAllFailMessage;
+    return this.todoService.failMessage;
   }
 }

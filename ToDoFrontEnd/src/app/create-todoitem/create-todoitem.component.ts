@@ -25,4 +25,8 @@ export class CreateTodoitemComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  public get failMessage(): string {
+    return this.todoService.failMessage;
+  }
+
 }

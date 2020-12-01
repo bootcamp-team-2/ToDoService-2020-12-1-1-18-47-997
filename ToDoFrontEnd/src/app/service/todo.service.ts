@@ -13,13 +13,13 @@ export class TodoService {
   private currentId: number = 0;
 
   private _todoItems: Array<ToDoItem>;
-  public getAllFailMessage: string;
+  public failMessage: string;
 
   constructor(private todoStore: TodoStoreService, private todoHttpService: TodoHttpService) {
     this._todoItems = todoStore.GetAll();
     this.updatingToDoItem = new ToDoItem(-1, "", "", false);
     this.selectedTodoItem = new ToDoItem(-1, "", "", false);
-    this.getAllFailMessage = '';
+    this.failMessage = '';
     // this.currentId = this.todoItems.length;
   }
 
@@ -30,7 +30,7 @@ export class TodoService {
         allTodoItem.push(...todoItems);
       },
       error => {
-        this.getAllFailMessage = 'get all fail because of web api error';
+        this.failMessage = 'get all fail because of web api error';
       });
     return allTodoItem;
   }
@@ -48,6 +48,7 @@ export class TodoService {
     var newTodoItem = Object.assign({}, todoItem);
     this.todoHttpService.create(newTodoItem).subscribe(
       todoItem => console.log(todoItem),
+      error => this.failMessage = 'create fail because of web api error',
     );
 
     this.currentId++;
