@@ -44,12 +44,7 @@ export class TodoService {
         this.updatingToDoItem = item;
         console.log(item); this.selectFailMessage = '';
       },
-      error => { this.selectFailMessage = 'Select fail because select api error' });
-    const foundTodoItem = this.updatingToDoItem;
-
-    if (foundTodoItem !== undefined) {
-      this.updatingToDoItem = Object.assign({}, foundTodoItem);
-    }
+      error => { this.selectFailMessage = 'Select fail because select api error'; });
   }
 
   public Create(todoItem: ToDoItem): void {
@@ -59,12 +54,12 @@ export class TodoService {
 
   public UpdateTodoItem(updateTodoItem: ToDoItem): void {
     this.todoHttpService.Update(updateTodoItem).subscribe(
-      updateItem => { this.updatingToDoItem = updateItem; console.log(updateItem); this.updateFailMessage = ''; },
-      error => { this.updateFailMessage = 'Update fail because update api error' });
+      updateItem => { console.log(updateItem); this.updateFailMessage = ''; },
+      error => { this.updateFailMessage = 'Update fail because update api error'; });
   }
 
   public DeleteTodoItem(id: number): void {
-    this.todoHttpService.Delete(id).subscribe(deleteId => { console.log(deleteId); this.deleteFailMessage = ''; this.todoItems;},
+    this.todoHttpService.Delete(id).subscribe(deleteId => { console.log(deleteId); this.deleteFailMessage = '';},
       error => { this.deleteFailMessage = 'Delete fail because delete api error'; });
   }
 
@@ -74,6 +69,6 @@ export class TodoService {
         this.selectedTodoItem = item;
         console.log(item); this.selectFailMessage = '';
       },
-      error => { this.selectFailMessage = 'Select fail because select api error' });
+      error => { this.selectFailMessage = 'Select fail because select api error'; });
   }
 }
