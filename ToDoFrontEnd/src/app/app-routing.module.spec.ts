@@ -46,4 +46,10 @@ describe("Router", () => {
     tick(50);
     expect(location.path()).toBe('/detail/1');
   }));
+
+  it('test navigate "create" redirect to /create', fakeAsync(() =>{
+    router.navigate(['create']);
+    tick(50);
+    expect(location.path()).toBe('/create');
+  }));
 });
