@@ -3,6 +3,7 @@ export class ToDoItem {
         public title: string,
         public description: string,
         public isDone: boolean
-    ) {
+    )
+    {
     }
 }

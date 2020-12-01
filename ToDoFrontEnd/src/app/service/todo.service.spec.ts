@@ -18,7 +18,7 @@ describe('TodoService', () => {
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
     todoStoreService = new TodoStoreService();
-    todoHttpService = new TodoHttpService(<any>httpClientSpy);
+    todoHttpService = new TodoHttpService( <any>httpClientSpy );
 
     service = new TodoService(todoStoreService, todoHttpService);
   });
@@ -70,17 +70,17 @@ describe('TodoService', () => {
 
   it('should process error response when create todoItems fail', fakeAsync( () => {
 
-    //given
+    // given
     const errorResponse = new HttpErrorResponse({
       error: 'test 404 error',
       status: 404, statusText: 'Not Found'
     });
     const newTodoItem = new ToDoItem(10, "new todo", "new todo description", false);
     httpClientSpy.post.and.returnValue(asyncError(errorResponse));
-    //when
+    // when
     service.Create(newTodoItem);
     tick(50);
-    //then
+    // then
     expect(service.postFailMessage).toBe('Post fail because web API error');
   }));
 
@@ -105,16 +105,23 @@ describe('TodoService', () => {
     expect(orignalTodoItem.isDone).toBe(updateTodoItem.isDone);
   }));
 
-  it('should delete todo item', () => {
-    const id = service.todoItems[0].id;
+  it('should delete todo item', fakeAsync(() => {
+    // given
+    const id = todoStoreService.GetAll()[0].id;
+    const expectItem = todoStoreService.FindById(id);
+    httpClientSpy.delete.and.returnValue(of(expectItem));
+    // when
     service.DeleteTodoItem(id);
-    expect(service.todoItems.length).toBe(4);
-  });
+    tick(50);
+    // then
+    //expect(todoStoreService.GetAll().length).toBe(4);
+    expect(httpClientSpy.delete.calls.count()).toBe(1,"one call");
+  }));
 
   it('should get special todo item', fakeAsync(() => {
     // given
     const id = todoStoreService.GetAll()[0].id;
-    const expectItem = todoStoreService.FindById(id)
+    const expectItem = todoStoreService.FindById(id);
     httpClientSpy.get.and.returnValue(of(expectItem));
     // when
     service.SetSelectedTodoItemId(id);
