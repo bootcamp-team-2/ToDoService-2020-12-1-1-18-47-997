@@ -79,7 +79,13 @@ export class TodoService {
   }
 
   public DeleteTodoItem(id: number):void{   
-    this.todoStore.Delete(id); 
+    this.todoHttpService.delete(id).subscribe(
+      _ => console.log(_),
+      error => {
+        this.failMessage = 'fail to delete item';
+        console.log(this.failMessage);
+      }
+    );
   }
 
   public SetSelectedTodoItemId(id: number):void{

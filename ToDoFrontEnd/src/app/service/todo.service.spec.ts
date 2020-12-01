@@ -124,8 +124,11 @@ describe('TodoService', () => {
   }));
 
   it('should delete todo item', () => {
-    const id = service.todoItems[0].id;
+    const id = todoStoreService.GetAll()[0].id;
+    httpClientSpy.delete.and.returnValue(of(todoStoreService.GetAll()[0]));
     service.DeleteTodoItem(id);
+    todoStoreService.Delete(id);
+    httpClientSpy.get.and.returnValue(of(todoStoreService.GetAll()));
     expect(service.todoItems.length).toBe(4);
   });
 

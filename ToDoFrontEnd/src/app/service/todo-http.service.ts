@@ -30,6 +30,10 @@ export class TodoHttpService {
   }
 
   public getById(id: number): Observable<ToDoItem> {
-    return this.httpClient.get<ToDoItem>(`https://localhost:5001/ToDoItem/${id}`);
+    return this.httpClient.get<ToDoItem>(`https://localhost:5001/ToDoItem/${id}`, httpOptions);
+  }
+
+  public delete(id: number): Observable<ToDoItem> {
+    return this.httpClient.delete<ToDoItem>(`http://localhost:5000/ToDoItem?id=${id}`, httpOptions);
   }
 }
