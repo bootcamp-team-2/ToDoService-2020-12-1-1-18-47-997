@@ -12,7 +12,7 @@ export class CreateTodoitemComponent implements OnInit {
 
   constructor(private todoService: TodoService,
     private router: Router) {
-    this.toDoItem = new ToDoItem(0, "1", "2", false);
+    this.toDoItem = new ToDoItem(0, "new", "new", false);
   }
 
   public toDoItem: ToDoItem;
@@ -22,10 +22,14 @@ export class CreateTodoitemComponent implements OnInit {
 
   public createToDoItem(): void {
     this.todoService.Create(this.toDoItem);
-    // if(this.todoService.failMessage === '')
-    // {
-    //   this.router.navigate(['']);
-    // }
+    if(this.todoService.failMessage === '')
+    {
+      this.router.routeReuseStrategy.shouldReuseRoute = function () {
+        return false;
+      };
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate(['']);
+    }
   }
 
   public get failMessage(): string {

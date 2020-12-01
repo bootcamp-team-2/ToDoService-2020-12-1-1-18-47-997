@@ -28,6 +28,10 @@ export class ListTodoitemComponent implements OnInit {
 
   public deleteTodoItem(id: number): void {
     this.todoService.DeleteTodoItem(id);
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+    this.router.onSameUrlNavigation = 'reload';
     this.router.navigate(['']);
   }
 

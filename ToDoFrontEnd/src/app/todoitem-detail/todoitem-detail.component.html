@@ -6,5 +6,8 @@
     <label> Title:  </label> <h3>{{todoService.selectedTodoItem.title}}</h3>
     <label> Description:  </label> <h3>{{todoService.selectedTodoItem.description}}</h3>
     <label> IsDone:  </label> <h3>{{todoService.selectedTodoItem.isDone}}</h3>
+</div>
 
+<div *ngIf='errorMessage!==""' style="color: red; font-size: 50px;">
+    {{errorMessage}}
 </div>

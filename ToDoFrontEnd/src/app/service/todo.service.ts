@@ -28,6 +28,7 @@ export class TodoService {
       },
       error => {
         this.failMessage = 'get all fail because of web api error';
+        console.log(this.failMessage);
       });
     return allTodoItem;
   }
@@ -39,9 +40,13 @@ export class TodoService {
           this.updatingToDoItem = Object.assign({}, foundTodoItem);
           this.failMessage = '';
         }
+        else{
+          this.updatingToDoItem = new ToDoItem(-1, "err", "err", false);
+          this.failMessage = 'fail to get item by id (set selected)';
+        }
       },
       error => {
-        this.updatingToDoItem = new ToDoItem(-1, "", "", false);
+        this.updatingToDoItem = new ToDoItem(-1, "err", "err", false);
         this.failMessage = 'fail to get item by id (set updated)';
         console.log(this.failMessage);
       }
@@ -57,7 +62,10 @@ export class TodoService {
         this.failMessage = '';
         this.currentId++;
       },
-      error => this.failMessage = 'create fail because of web api error',
+      error => {
+        this.failMessage = 'create fail because of web api error';
+        console.log(this.failMessage);
+      },
     );
   }
 
@@ -93,9 +101,14 @@ export class TodoService {
           this.selectedTodoItem = todoItem;
           this.failMessage = '';
         }
+        else
+        {
+          this.selectedTodoItem = new ToDoItem(-1, "err", "err", false);
+          this.failMessage = 'fail to get item by id (set selected)';
+        }
       },
       error => {
-        this.selectedTodoItem = new ToDoItem(-1, "", "", false);
+        this.selectedTodoItem = new ToDoItem(-1, "err", "err", false);
         this.failMessage = 'fail to get item by id (set selected)';
         console.log(this.failMessage);
       },

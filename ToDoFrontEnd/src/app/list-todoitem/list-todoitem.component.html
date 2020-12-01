@@ -38,7 +38,7 @@
             <button (click)="selectTodoItem(todoItem.id)">Detail</button>
         </td>
     </tr>
-    <tr *ngIf="toDoItems.length === 0">
+    <tr *ngIf="toDoItems.length === 0" style="color: red; font-size: 50px;">
         {{errorMessage}}
     </tr>
 </table>
