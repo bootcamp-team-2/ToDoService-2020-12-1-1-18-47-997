@@ -28,6 +28,7 @@ export class TodoService {
     this.todoHttpService.getAll().subscribe(
       todoItems => {
         allTodoItem.push(...todoItems);
+        this.failMessage = '';
       },
       error => {
         this.failMessage = 'get all fail because of web api error';
@@ -47,7 +48,10 @@ export class TodoService {
     todoItem.id = this.currentId;
     var newTodoItem = Object.assign({}, todoItem);
     this.todoHttpService.create(newTodoItem).subscribe(
-      todoItem => console.log(todoItem),
+      todoItem => {
+        console.log(todoItem);
+        this.failMessage = '';
+      },
       error => this.failMessage = 'create fail because of web api error',
     );
 
