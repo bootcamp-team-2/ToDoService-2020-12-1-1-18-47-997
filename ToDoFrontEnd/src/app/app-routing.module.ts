@@ -7,7 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { from } from 'rxjs';
 export const routes: Routes = [
   { path: "delete", component: ListTodoitemComponent },
-  { path: "", component: ListTodoitemComponent },
+  { path: "", component: ListTodoitemComponent},
   { path: "create", component: CreateTodoitemComponent },
   { path: "edit/:id", component: UpdateTodoItemComponent },
   { path: "detail/:id", component: TodoitemDetailComponent },
@@ -15,7 +15,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

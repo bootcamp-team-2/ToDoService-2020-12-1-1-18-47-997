@@ -54,19 +54,22 @@ export class TodoService {
 
   public UpdateTodoItem(updateTodoItem: ToDoItem): void {
     this.todoHttpService.Update(updateTodoItem).subscribe(
-      updateItem => {this.updatingToDoItem = updateItem; console.log(updateItem); this.updateFailMessage = ''; },
+      updateItem => { this.updatingToDoItem = updateItem; console.log(updateItem); this.updateFailMessage = ''; },
       error => { this.updateFailMessage = 'Update fail because update api error' });
   }
 
   public DeleteTodoItem(id: number): void {
-    this.todoHttpService.Delete(id).subscribe(deleteId => { console.log(deleteId); this.deleteFailMessage = ''; },
+    this.todoHttpService.Delete(id).subscribe(deleteId => { console.log(deleteId); this.deleteFailMessage = ''; this.todoItems;},
       error => { this.deleteFailMessage = 'Delete fail because delete api error'; });
   }
 
   public SetSelectedTodoItemId(id: number): void {
     this.todoHttpService.GetById(id).subscribe(
-      item => { this.updatingToDoItem = item;
-        console.log(item); this.selectFailMessage = ''; },
+      item => {
+        this.updatingToDoItem = item;
+        this.selectedTodoItem = item;
+        console.log(item); this.selectFailMessage = '';
+      },
       error => { this.selectFailMessage = 'Select fail because select api error' });
   }
 }

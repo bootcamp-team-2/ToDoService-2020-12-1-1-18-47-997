@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { ToDoItem } from '../model/ToDoItem';
 import { TodoService } from '../service/todo.service';
 import { ThrowStmt } from '@angular/compiler';
@@ -29,11 +29,11 @@ export class ListTodoitemComponent implements OnInit {
 
   public deleteTodoItem(id: number): void {
     this.todoService.DeleteTodoItem(id);
-    this.route.navigate(['']);
   }
 
   public selectTodoItem(id: number): void {
     this.route.navigate(['detail', id]);
     this.todoService.SetSelectedTodoItemId(id);
   }
+
 }
