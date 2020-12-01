@@ -26,7 +26,7 @@ describe('TodoService', () => {
   function asyncData<T>(data: T) {
     return defer(() => Promise.resolve(data));
   }
-  
+
   function asyncError(errorObject: any) {
       return defer(() => Promise.reject(errorObject));
     }
@@ -104,9 +104,16 @@ describe('TodoService', () => {
     expect(service.todoItems.length).toBe(4);
   });
 
-  it('should get special todo item', () => {
-    const id = service.todoItems[4].id;
+  it('should get special todo item', fakeAsync(() => {
+    // given
+    const id = todoStoreService.GetAll()[0].id;
+    const expectItem = todoStoreService.FindById(id)
+    httpClientSpy.get.and.returnValue(of(expectItem));
+    // when
     service.SetSelectedTodoItemId(id);
+    tick(50);
+    // then
     expect(service.selectedTodoItem.id).toBe(id);
-  });
+    expect(httpClientSpy.get.calls.count()).toBe(1,"one call");
+  }));
 });

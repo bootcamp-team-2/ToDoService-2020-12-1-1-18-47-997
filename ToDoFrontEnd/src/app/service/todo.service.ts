@@ -13,6 +13,7 @@ export class TodoService {
   private currentId: number = 0;
   public getAllFailMessage: string;
   public postFailMessage: string;
+  public detailFailMessage: string;
 
   private _todoItems: Array<ToDoItem>;
 
@@ -20,9 +21,9 @@ export class TodoService {
     this._todoItems = todoStore.GetAll();
     this.updatingToDoItem = new ToDoItem(-1, "", "", false);
     this.selectedTodoItem = new ToDoItem(-1, "", "", false);
-    //this.currentId = this.todoItems.length;
     this.getAllFailMessage = '';
     this.postFailMessage = '';
+    this.detailFailMessage = '';
   }
 
   public get todoItems(): Array<ToDoItem> {
@@ -46,11 +47,6 @@ export class TodoService {
   }
 
   public Create(todoItem: ToDoItem) {
-    // todoItem.id = this.currentId;
-    // var newTodoItem = Object.assign({}, todoItem);
-    // this.todoStore.Create(newTodoItem);
-    // this.currentId++;
-
     this.todoHttpService.Create(todoItem).subscribe(todoItem => {console.log(todoItem); this.postFailMessage = ''; },
     error => {
       this.postFailMessage = 'Post fail because web API error';
@@ -62,11 +58,16 @@ export class TodoService {
     this.todoStore.Update(updateTodoItems);
   }
 
-  public DeleteTodoItem(id: number):void{
+  public DeleteTodoItem(id: number): void{
     this.todoStore.Delete(id);
   }
 
-  public SetSelectedTodoItemId(id: number):void{
-    this.selectedTodoItem = this.todoStore.FindById(id);
+  public SetSelectedTodoItemId(id: number): void{
+    this.todoHttpService.GetById(id).subscribe(toDoItem => {
+      this.selectedTodoItem = toDoItem;
+    },
+    error => {
+      this.detailFailMessage = 'get detail fail because web API error';
+    });
   }
 }
