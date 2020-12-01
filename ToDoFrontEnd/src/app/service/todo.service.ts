@@ -6,13 +6,14 @@ import { TodoStoreService } from './todo-store.service';
   providedIn: 'root'
 })
 export class TodoService {
-  
+
   public updatingToDoItem: ToDoItem;
   public selectedTodoItem: ToDoItem;
   private currentId: number = 0;
 
   private _todoItems: Array<ToDoItem>;
 
+  // 替换todoStore
   constructor(private todoStore: TodoStoreService) {
     this._todoItems = todoStore.GetAll();
     this.updatingToDoItem = new ToDoItem(-1, "", "", false);
@@ -26,7 +27,7 @@ export class TodoService {
 
   public SetUpdatingTodoItemId(id: number): void {
     const foundTodoItem = this.todoStore.FindById(id);
-    
+
     if (foundTodoItem !== undefined) {
       this.updatingToDoItem = Object.assign({}, foundTodoItem);
     }
@@ -43,8 +44,8 @@ export class TodoService {
     this.todoStore.Update(updateTodoItems);
   }
 
-  public DeleteTodoItem(id: number):void{   
-    this.todoStore.Delete(id); 
+  public DeleteTodoItem(id: number): void{
+    this.todoStore.Delete(id);
   }
 
   public SetSelectedTodoItemId(id: number):void{
