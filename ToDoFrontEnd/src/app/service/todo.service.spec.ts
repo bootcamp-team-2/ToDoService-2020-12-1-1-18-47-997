@@ -9,7 +9,7 @@ import { TodoService } from './todo.service';
 describe('TodoService', () => {
 
   let service: TodoService;
-  let httpClientSpy: { get: jasmine.Spy };
+  let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy };
   let todoStoreService: TodoStoreService;
   let todoHttpService: TodoHttpService;
 
@@ -59,12 +59,10 @@ describe('TodoService', () => {
 
   it('should create todo-item via mockhttp', () => {
     const newTodoItem = new ToDoItem(10, "new todo", "new todo description", false);
+    httpClientSpy.post.and.returnValue(of(newTodoItem));
     service.Create(newTodoItem);
-    expect(service.todoItems.length).toBe(6);
-    expect(service.todoItems[5].id === newTodoItem.id);
-    expect(service.todoItems[5].title === newTodoItem.title);
-    expect(service.todoItems[5].description === newTodoItem.description);
-    expect(service.todoItems[5].isDone === newTodoItem.isDone);
+    
+    expect(httpClientSpy.post.calls.count()).toBe(1);
   });
 
   it('should update todo-item', () => {

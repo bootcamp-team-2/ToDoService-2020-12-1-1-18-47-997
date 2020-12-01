@@ -46,7 +46,10 @@ export class TodoService {
   public Create(todoItem: ToDoItem) {
     todoItem.id = this.currentId;
     var newTodoItem = Object.assign({}, todoItem);
-    this.todoStore.Create(newTodoItem);
+    this.todoHttpService.create(newTodoItem).subscribe(
+      todoItem => console.log(todoItem),
+    );
+
     this.currentId++;
   }
 
