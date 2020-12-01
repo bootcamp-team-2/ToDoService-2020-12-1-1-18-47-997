@@ -37,11 +37,13 @@ export class TodoService {
   }
 
   public SetUpdatingTodoItemId(id: number): void {
-    const foundTodoItem = this.todoStore.FindById(id);
-    
-    if (foundTodoItem !== undefined) {
-      this.updatingToDoItem = Object.assign({}, foundTodoItem);
-    }
+    this.todoHttpService.getById(id).subscribe(
+      foundTodoItem => {
+        if (foundTodoItem !== undefined) {
+          this.updatingToDoItem = Object.assign({}, foundTodoItem);
+        }
+      }
+    );
   }
 
   public Create(todoItem: ToDoItem) {
@@ -59,7 +61,13 @@ export class TodoService {
   }
 
   public UpdateTodoItem(updateTodoItems: ToDoItem): void {
-    this.todoStore.Update(updateTodoItems);
+    this.todoHttpService.update(updateTodoItems).subscribe(
+      todoItem => {
+        console.log(todoItem);
+        this.failMessage = '';
+      },
+      error => this.failMessage = 'update fail because of web api error',
+    );
   }
 
   public DeleteTodoItem(id: number):void{   
