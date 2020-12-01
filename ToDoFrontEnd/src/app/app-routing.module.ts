@@ -9,7 +9,7 @@ const routes: Routes = [
   {path: "", component: ListTodoitemComponent},
   {path: "detail", component: TodoitemDetailComponent},
   {path: "create", component: CreateTodoitemComponent},
-  {path: "edit", component: UpdateTodoItemComponent}
+  {path: "edit/:id", component: UpdateTodoItemComponent}
 ];
 // 进行页面的切换
 @NgModule({
