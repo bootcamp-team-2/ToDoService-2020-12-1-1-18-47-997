@@ -5,7 +5,7 @@ import { UpdateTodoItemComponent } from './update-todo-item/update-todo-item.com
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [
+export const routes: Routes = [
   {path: "", component: ListTodoitemComponent},
   {path: "detail", component: TodoitemDetailComponent},
   {path: "create", component: CreateTodoitemComponent},
