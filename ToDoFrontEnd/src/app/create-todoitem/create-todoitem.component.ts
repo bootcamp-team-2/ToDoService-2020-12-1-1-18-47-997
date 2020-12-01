@@ -10,7 +10,7 @@ import { TodoService } from '../service/todo.service';
 })
 export class CreateTodoitemComponent implements OnInit {
 
-  constructor(private todoService: TodoService, private router: ActivatedRoute) {
+  constructor(public todoService: TodoService, private router: ActivatedRoute) {
     this.toDoItem = new ToDoItem(0, "1", "2", false);
   }
 

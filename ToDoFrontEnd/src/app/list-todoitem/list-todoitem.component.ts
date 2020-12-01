@@ -13,7 +13,7 @@ export class ListTodoitemComponent implements OnInit {
 
   public toDoItems: ToDoItem[]
 
-  constructor(private todoService: TodoService, private route: Router) {
+  constructor(public todoService: TodoService, private route: Router) {
     this.toDoItems = [];
   }
 
@@ -31,7 +31,7 @@ export class ListTodoitemComponent implements OnInit {
   }
 
   public selectTodoItem(id: number): void {
-    this.route.navigate(['detail',id]);
+    this.route.navigate(['detail', id]);
     this.todoService.SetSelectedTodoItemId(id);
   }
 }
