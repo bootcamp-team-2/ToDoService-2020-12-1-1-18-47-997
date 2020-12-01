@@ -22,11 +22,13 @@ export class CreateTodoitemComponent implements OnInit {
 
   public createToDoItem(): void {
     this.todoService.Create(this.toDoItem);
-    this.router.navigate(['']);
+    // if(this.todoService.failMessage === '')
+    // {
+    //   this.router.navigate(['']);
+    // }
   }
 
   public get failMessage(): string {
     return this.todoService.failMessage;
   }
-
 }

@@ -46,7 +46,7 @@ export class TodoService {
     );
   }
 
-  public Create(todoItem: ToDoItem) {
+  public Create(todoItem: ToDoItem): void {
     todoItem.id = this.currentId;
     var newTodoItem = Object.assign({}, todoItem);
     this.todoHttpService.create(newTodoItem).subscribe(
@@ -60,13 +60,16 @@ export class TodoService {
     this.currentId++;
   }
 
-  public UpdateTodoItem(updateTodoItems: ToDoItem): void {
-    this.todoHttpService.update(updateTodoItems).subscribe(
+  public UpdateTodoItem(updateTodoItem: ToDoItem): void {
+    this.todoHttpService.update(updateTodoItem).subscribe(
       todoItem => {
         console.log(todoItem);
         this.failMessage = '';
       },
-      error => this.failMessage = 'update fail because of web api error',
+      error => {
+        this.failMessage = 'update fail because of web api error';
+        console.log(this.failMessage);
+      },
     );
   }
 

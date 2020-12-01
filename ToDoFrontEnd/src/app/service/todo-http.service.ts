@@ -25,8 +25,8 @@ export class TodoHttpService {
     return this.httpClient.post<ToDoItem>('https://localhost:5001/ToDoItem', newTodoItem, httpOptions);
   }
 
-  public update(updateTodoItems: ToDoItem): Observable<ToDoItem> {
-    return this.httpClient.put<ToDoItem>('https://localhost:5001/ToDoItem', updateTodoItems, httpOptions);
+  public update(updateTodoItem: ToDoItem): Observable<ToDoItem> {
+    return this.httpClient.put<ToDoItem>('https://localhost:5001/ToDoItem', updateTodoItem, httpOptions);
   }
 
   public getById(id: number): Observable<ToDoItem> {

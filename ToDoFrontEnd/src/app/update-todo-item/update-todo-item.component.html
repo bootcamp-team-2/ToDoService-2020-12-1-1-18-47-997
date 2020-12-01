@@ -11,3 +11,6 @@
     <input type="checkbox" name="isDone" [(ngModel)]="todoItemService.updatingToDoItem.isDone">
     <button type="submit">Submit</button>
 </form>
+<div *ngIf='errorMessage!==""'>
+    {{errorMessage}}
+</div>

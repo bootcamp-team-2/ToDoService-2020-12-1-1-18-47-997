@@ -22,6 +22,17 @@ export class UpdateTodoItemComponent implements OnInit {
 
   public updateTodoItem(): void{
     this.todoItemService.UpdateTodoItem(this.todoItemService.updatingToDoItem);
-    this.router.navigate(['']);
+    // if(this.todoItemService.failMessage === '')
+    // {
+    //   this.router.navigate(['']);
+    // }
+    // else{
+    //   const currentId = this.route.snapshot.paramMap.get('id');
+    //   this.router.navigate(['update', {id: currentId}]);
+    // }
+  }
+
+  public get errorMessage(): string {
+    return this.todoItemService.failMessage;
   }
 }

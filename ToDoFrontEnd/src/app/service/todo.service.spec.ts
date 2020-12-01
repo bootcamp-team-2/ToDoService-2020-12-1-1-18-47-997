@@ -96,6 +96,33 @@ describe('TodoService', () => {
     expect(service.todoItems[0].isDone).toBe(updateTodoItem.isDone);
   });
 
+  it('should process update response when update item fail', fakeAsync(() => {
+    const expectAllItems = todoStoreService.GetAll();
+    httpClientSpy.get.and.returnValue(of(expectAllItems));
+    let item = service.todoItems[0];
+  
+    const description = item.description;
+    const title = item.title;
+    const isDone = item.isDone;
+
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404, statusText: 'Not Found'
+    });
+
+    httpClientSpy.put.and.returnValue(asyncError(errorResponse));
+
+    var updateTodoItem = new ToDoItem(item.id, 'updated title', 'updated description', true);
+    service.UpdateTodoItem(updateTodoItem);
+    tick(50);
+
+    expect(service.failMessage).toBe('update fail because of web api error');
+    expect(service.todoItems.length).toBe(5);
+    expect(service.todoItems[0].description).toBe(description);
+    expect(service.todoItems[0].title).toBe(title);
+    expect(service.todoItems[0].isDone).toBe(isDone);
+  }));
+
   it('should delete todo item', () => {
     const id = service.todoItems[0].id;
     service.DeleteTodoItem(id);
