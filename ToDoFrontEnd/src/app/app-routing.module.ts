@@ -6,11 +6,11 @@ import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 
-const routes: Routes = [
+export const routes: Routes = [
   {path: '', component: ListTodoitemComponent},
   {path: 'creat', component: CreateTodoitemComponent},
   {path: 'edit/:id', component: UpdateTodoItemComponent},
-  {path: 'detail', component: TodoitemDetailComponent},
+  {path: 'detail/:id', component: TodoitemDetailComponent},
 ];
 
 @NgModule({
