@@ -8,19 +8,15 @@ import { TodoStoreService } from './todo-store.service';
 })
 export class TodoService {
   
-  public updatingToDoItem: ToDoItem;
-  public selectedTodoItem: ToDoItem;
-  private currentId: number = 0;
+  public updatingToDoItem!: ToDoItem;
+  public selectedTodoItem!: ToDoItem;
+  private currentId: number;
 
-  private _todoItems: Array<ToDoItem>;
   public failMessage: string;
 
   constructor(private todoStore: TodoStoreService, private todoHttpService: TodoHttpService) {
-    this._todoItems = todoStore.GetAll();
-    this.updatingToDoItem = new ToDoItem(-1, "", "", false);
-    this.selectedTodoItem = new ToDoItem(-1, "", "", false);
     this.failMessage = '';
-    // this.currentId = this.todoItems.length;
+    this.currentId = 0;
   }
 
   public get todoItems(): Array<ToDoItem> {
@@ -41,10 +37,11 @@ export class TodoService {
       foundTodoItem => {
         if (foundTodoItem !== undefined) {
           this.updatingToDoItem = Object.assign({}, foundTodoItem);
+          this.failMessage = '';
         }
-        this.failMessage = '';
       },
       error => {
+        this.updatingToDoItem = new ToDoItem(-1, "", "", false);
         this.failMessage = 'fail to get item by id (set updated)';
         console.log(this.failMessage);
       }
@@ -91,10 +88,14 @@ export class TodoService {
   public SetSelectedTodoItemId(id: number):void{
     this.todoHttpService.getById(id).subscribe(
       todoItem => {
-        this.selectedTodoItem = todoItem;
-        this.failMessage = '';
+        if(todoItem !== null)
+        {
+          this.selectedTodoItem = todoItem;
+          this.failMessage = '';
+        }
       },
       error => {
+        this.selectedTodoItem = new ToDoItem(-1, "", "", false);
         this.failMessage = 'fail to get item by id (set selected)';
         console.log(this.failMessage);
       },
