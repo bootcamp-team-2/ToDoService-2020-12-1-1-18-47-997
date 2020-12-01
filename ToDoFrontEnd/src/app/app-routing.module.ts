@@ -8,7 +8,7 @@ import { from } from 'rxjs';
 const routes: Routes = [
   {path: "", component: ListTodoitemComponent},
   {path: "create", component: CreateTodoitemComponent},
-  {path: "edit", component: UpdateTodoItemComponent},
+  {path: "edit/:id", component: UpdateTodoItemComponent},
   {path: "detail", component: TodoitemDetailComponent},
 
 ];
