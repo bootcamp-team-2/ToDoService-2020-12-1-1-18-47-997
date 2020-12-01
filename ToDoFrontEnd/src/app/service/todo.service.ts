@@ -42,6 +42,11 @@ export class TodoService {
         if (foundTodoItem !== undefined) {
           this.updatingToDoItem = Object.assign({}, foundTodoItem);
         }
+        this.failMessage = '';
+      },
+      error => {
+        this.failMessage = 'fail to get item by id (set updated)';
+        console.log(this.failMessage);
       }
     );
   }
@@ -78,6 +83,15 @@ export class TodoService {
   }
 
   public SetSelectedTodoItemId(id: number):void{
-    this.selectedTodoItem = this.todoStore.FindById(id);
+    this.todoHttpService.getById(id).subscribe(
+      todoItem => {
+        this.selectedTodoItem = todoItem;
+        this.failMessage = '';
+      },
+      error => {
+        this.failMessage = 'fail to get item by id (set selected)';
+        console.log(this.failMessage);
+      },
+    );
   }
 }

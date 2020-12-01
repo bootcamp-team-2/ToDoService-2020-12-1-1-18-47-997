@@ -130,7 +130,9 @@ describe('TodoService', () => {
   });
 
   it('should get special todo item', () => {
-    const id = service.todoItems[4].id;
+    const id = todoStoreService.GetAll()[0].id;
+    var item = todoStoreService.FindById(id);
+    httpClientSpy.get.and.returnValue(of(item));
     service.SetSelectedTodoItemId(id);
     expect(service.selectedTodoItem.id).toBe(id);
   });
