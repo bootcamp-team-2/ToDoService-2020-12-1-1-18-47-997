@@ -50,8 +50,11 @@ export class TodoService {
     });
   }
 
-  public UpdateTodoItem(updateTodoItems: ToDoItem): void {
-    this.todoStore.Update(updateTodoItems);
+  public UpdateTodoItem(updateTodoItem: ToDoItem) {
+    this.todoHttpService.Update(updateTodoItem).subscribe(
+      () => this.getAllFailMessage = '' ,
+      error => this.getAllFailMessage = 'update all because webapi error'
+    );
   }
 
   public DeleteTodoItem(id: number): void{

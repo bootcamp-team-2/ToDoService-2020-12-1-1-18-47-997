@@ -9,7 +9,7 @@ import { TodoService } from './todo.service';
 describe('TodoService', () => {
 
   let service: TodoService;
-  let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy };
+  let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy, put: jasmine.Spy };
   let todoStoreService: TodoStoreService;
   let todoHttpService: TodoHttpService;
 
@@ -71,26 +71,38 @@ describe('TodoService', () => {
       error: 'test 404 error',
       status: 404, statusText: 'Not Found'
     });
-
+    const newTodoItem = new ToDoItem(10, "new todo", "new todo description", false);
     httpClientSpy.post.and.returnValue(asyncError(errorResponse));
     // when
-    service.todoItems;
+    service.Create(newTodoItem);
     tick(50);
     //then
     expect(service.getAllFailMessage).toBe("post all because webapi error");
   }));
 
-  it('should update todo-item', () => {
-    const updateTodoItem = service.todoItems[0];
-    updateTodoItem.description = "updated description";
-    updateTodoItem.title = "updated title";
-    updateTodoItem.isDone = true;
-    service.UpdateTodoItem(updateTodoItem);
-    expect(service.todoItems.length).toBe(5);
-    expect(service.todoItems[0].description).toBe(updateTodoItem.description);
-    expect(service.todoItems[0].title).toBe(updateTodoItem.title);
-    expect(service.todoItems[0].isDone).toBe(updateTodoItem.isDone);
+  it('should update todo-item via mock', () => {
+    const newTodoItem = new ToDoItem(10, "new todo", "new todo description", false);
+    httpClientSpy.put.and.returnValue(of(newTodoItem));
+    service.UpdateTodoItem(newTodoItem);
+
+    // then
+    expect(httpClientSpy.put.calls.count()).toBe(1, "one call");
   });
+
+  it('should process error response when update 5 todoitems fail', fakeAsync(() => {
+    // given
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404, statusText: 'Not Found'
+    });
+    const newTodoItem = new ToDoItem(10, "new todo", "new todo description", false);
+    httpClientSpy.put.and.returnValue(asyncError(errorResponse));
+    // when
+    service.UpdateTodoItem(newTodoItem);
+    tick(50);
+    //then
+    expect(service.getAllFailMessage).toBe("update all because webapi error");
+  }));
 
   it('should delete todo item', () => {
     const id = service.todoItems[0].id;
