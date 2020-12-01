@@ -45,7 +45,9 @@ export class TodoService {
   }
 
   public Create(todoItem: ToDoItem) {
-    this.todoHttpService.Create(todoItem).subscribe();
+    this.todoHttpService.Create(todoItem).subscribe( () => {this.getAllFailMessage = ""}, error => {
+      this.getAllFailMessage = "post all because webapi error";
+    });
   }
 
   public UpdateTodoItem(updateTodoItems: ToDoItem): void {
