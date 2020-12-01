@@ -14,6 +14,7 @@ export class TodoService {
   public getAllFailMessage: string;
   public postFailMessage: string;
   public detailFailMessage: string;
+  public updateFailMessage: string;
 
   private _todoItems: Array<ToDoItem>;
 
@@ -24,6 +25,7 @@ export class TodoService {
     this.getAllFailMessage = '';
     this.postFailMessage = '';
     this.detailFailMessage = '';
+    this.updateFailMessage = '';
   }
 
   public get todoItems(): Array<ToDoItem> {
@@ -58,7 +60,10 @@ export class TodoService {
 
   public UpdateTodoItem( updatingToDoItem: ToDoItem): void {
     this.todoHttpService.Put(updatingToDoItem).subscribe(todoItem => {
-      console.log(todoItem); this.postFailMessage = ''; });
+      console.log(todoItem); this.postFailMessage = ''; },
+      error => {
+        this.updateFailMessage = 'update fail because web API error';
+      });
   }
 
   public DeleteTodoItem(id: number): void{
