@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ToDoItem } from '../model/ToDoItem';
 import { TodoService } from '../service/todo.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-list-todoitem',
@@ -28,6 +29,7 @@ export class ListTodoitemComponent implements OnInit {
 
   public deleteTodoItem(id: number): void {
     this.todoService.DeleteTodoItem(id);
+    this.route.navigate(['']);
   }
 
   public selectTodoItem(id: number): void {

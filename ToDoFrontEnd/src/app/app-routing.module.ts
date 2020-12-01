@@ -6,10 +6,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { from } from 'rxjs';
 export const routes: Routes = [
-  {path: "", component: ListTodoitemComponent},
-  {path: "create", component: CreateTodoitemComponent},
-  {path: "edit/:id", component: UpdateTodoItemComponent},
-  {path: "detail/:id", component: TodoitemDetailComponent},
+  { path: "delete", component: ListTodoitemComponent },
+  { path: "", component: ListTodoitemComponent },
+  { path: "create", component: CreateTodoitemComponent },
+  { path: "edit/:id", component: UpdateTodoItemComponent },
+  { path: "detail/:id", component: TodoitemDetailComponent },
 
 ];
 

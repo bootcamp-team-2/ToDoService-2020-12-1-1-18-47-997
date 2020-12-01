@@ -15,6 +15,9 @@ export class TodoService {
   private _todoItems: Array<ToDoItem>;
   public getAllFailMessage: string;
   public createFailMessage: string;
+  public updateFailMessage: string;
+  public deleteFailMessage: string;
+  public selectFailMessage: string;
 
   constructor(private todoStore: TodoStoreService, private todoHttpService: TodoHttpService) {
     this._todoItems = todoStore.GetAll();
@@ -23,6 +26,9 @@ export class TodoService {
     // this.currentId = this.todoItems.length;
     this.getAllFailMessage = '';
     this.createFailMessage = '';
+    this.updateFailMessage = '';
+    this.deleteFailMessage = '';
+    this.selectFailMessage = '';
   }
 
   public get todoItems(): Array<ToDoItem> {
@@ -41,20 +47,22 @@ export class TodoService {
   }
 
   public Create(todoItem: ToDoItem): void {
-
-    this.todoHttpService.Create(todoItem).subscribe(todoItem => { console.log(todoItem); },
+    this.todoHttpService.Create(todoItem).subscribe(todoItem => { console.log(todoItem); this.createFailMessage = ''; },
       error => { this.createFailMessage = 'Create fail because create api error'; });
   }
 
   public UpdateTodoItem(updateTodoItems: ToDoItem): void {
-    this.todoStore.Update(updateTodoItems);
+    this.todoHttpService.Update(updateTodoItems).subscribe(updateItem => { console.log(updateItem); this.updateFailMessage = ''; },
+      error => { this.updateFailMessage = 'Update fail because update api error' });
   }
 
   public DeleteTodoItem(id: number): void {
-    this.todoStore.Delete(id);
+    this.todoHttpService.Delete(id).subscribe(deleteId => { console.log(deleteId); this.deleteFailMessage = '';},
+    error => {this.deleteFailMessage = 'Delete fail because delete api error';});
   }
 
   public SetSelectedTodoItemId(id: number): void {
-    this.selectedTodoItem = this.todoStore.FindById(id);
+    this.todoHttpService.GetById(id).subscribe(item => {console.log(item); this.selectFailMessage = '';},
+    error => {this.selectFailMessage = 'Select fail because select api error'});
   }
 }
