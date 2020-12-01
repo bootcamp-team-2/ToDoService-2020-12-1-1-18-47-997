@@ -132,6 +132,19 @@ describe('TodoService', () => {
     expect(service.todoItems.length).toBe(4);
   });
 
+  it('should process error response when delete item fail', fakeAsync(() => {
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404, statusText: 'Not Found'
+    });
+
+    const id = todoStoreService.GetAll()[0].id;
+    httpClientSpy.delete.and.returnValue(asyncError(errorResponse));
+    service.DeleteTodoItem(id);
+    httpClientSpy.get.and.returnValue(of(todoStoreService.GetAll()));
+    expect(service.todoItems.length).toBe(5);
+  }));
+
   it('should get special todo item', () => {
     const id = todoStoreService.GetAll()[0].id;
     var item = todoStoreService.FindById(id);

@@ -34,6 +34,6 @@ export class TodoHttpService {
   }
 
   public delete(id: number): Observable<ToDoItem> {
-    return this.httpClient.delete<ToDoItem>(`http://localhost:5000/ToDoItem?id=${id}`, httpOptions);
+    return this.httpClient.delete<ToDoItem>(`https://localhost:5001/ToDoItem?id=${id}`, httpOptions);
   }
 }

@@ -58,11 +58,10 @@ export class TodoService {
       todoItem => {
         console.log(todoItem);
         this.failMessage = '';
+        this.currentId++;
       },
       error => this.failMessage = 'create fail because of web api error',
     );
-
-    this.currentId++;
   }
 
   public UpdateTodoItem(updateTodoItem: ToDoItem): void {
@@ -80,7 +79,8 @@ export class TodoService {
 
   public DeleteTodoItem(id: number):void{   
     this.todoHttpService.delete(id).subscribe(
-      _ => console.log(_),
+      _ => {
+      },
       error => {
         this.failMessage = 'fail to delete item';
         console.log(this.failMessage);
