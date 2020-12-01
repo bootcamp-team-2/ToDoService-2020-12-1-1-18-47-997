@@ -7,7 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 export const routes: Routes = [
   {path: "", component: ListTodoitemComponent},
-  {path: "detail", component: TodoitemDetailComponent},
+  {path: "detail/:id", component: TodoitemDetailComponent},
   {path: "create", component: CreateTodoitemComponent},
   {path: "edit/:id", component: UpdateTodoItemComponent}
 ];
