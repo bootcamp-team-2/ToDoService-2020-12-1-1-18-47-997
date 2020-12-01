@@ -1,3 +1,4 @@
+import { TodoHttpService } from './todo-http.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { defer, of } from 'rxjs';
@@ -10,23 +11,50 @@ describe('TodoService', () => {
   let service: TodoService;
   let httpClientSpy: { get: jasmine.Spy };
   let todoStoreService: TodoStoreService;
+  let todoHttpService: TodoHttpService;
 
   beforeEach(() => {
     // TODO: spy on other methods too
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put']);
     todoStoreService = new TodoStoreService();
+    todoHttpService = new TodoHttpService(<any>(httpClientSpy));
 
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(TodoService);
+    service = new TodoService(todoStoreService, todoHttpService);
+    // TestBed.configureTestingModule({});
+    // service = TestBed.inject(TodoService);
   });
 
+  function asyncData<T>(data: T){
+    return defer(() => Promise.resolve(data));
+  }
+  function asyncError<T>(errorObject: any){
+    return defer(() => Promise.reject(errorObject));
+  }
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
   it('should get all todoitems', () => {
+    const expectAllTodoItems = todoStoreService.GetAll();
+    httpClientSpy.get.and.returnValue(of(expectAllTodoItems));
     expect(service.todoItems.length).toBe(5);
+    expect(httpClientSpy.get.calls.count()).toBe(1, "one call");
   });
+
+  it('should process error response when get all todoitems fail', fakeAsync(() => {
+    // given
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404, statusText: 'Not Found'
+    });
+
+    httpClientSpy.get.and.returnValue(asyncError(errorResponse));
+    // when
+    service.todoItems;
+    tick(50);
+    //then
+    expect(service.getAllFailMessage).toBe("Get all because webapi error");
+  }));
 
   it('should create todo-item via mockhttp', () => {
     const newTodoItem = new ToDoItem(10, "new todo", "new todo description", false);
