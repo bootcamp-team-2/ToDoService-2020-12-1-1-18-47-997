@@ -39,7 +39,12 @@ export class TodoService {
   }
 
   public SetUpdatingTodoItemId(id: number): void {
-    this.SetSelectedTodoItemId(id);
+    this.todoHttpService.GetById(id).subscribe(
+      item => {
+        this.selectedTodoItem = item;
+        console.log(item); this.selectFailMessage = '';
+      },
+      error => { this.selectFailMessage = 'Select fail because select api error' });
     const foundTodoItem = this.updatingToDoItem;
 
     if (foundTodoItem !== undefined) {
@@ -66,7 +71,6 @@ export class TodoService {
   public SetSelectedTodoItemId(id: number): void {
     this.todoHttpService.GetById(id).subscribe(
       item => {
-        this.updatingToDoItem = item;
         this.selectedTodoItem = item;
         console.log(item); this.selectFailMessage = '';
       },
