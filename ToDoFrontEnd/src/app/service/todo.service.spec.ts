@@ -136,4 +136,23 @@ describe('TodoService', () => {
     service.SetSelectedTodoItemId(id);
     expect(service.selectedTodoItem.id).toBe(id);
   });
+
+  it('should process error response when get item by id fail', fakeAsync(() => {
+    const id = todoStoreService.GetAll()[1].id;
+    var item = todoStoreService.FindById(id);
+    httpClientSpy.get.and.returnValue(of(item));
+    service.SetSelectedTodoItemId(id);
+
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404, statusText: 'Not Found'
+    });
+
+    httpClientSpy.get.and.returnValue(asyncError(errorResponse));
+
+    const newId = todoStoreService.GetAll()[0].id;
+    service.SetSelectedTodoItemId(newId);
+
+    expect(service.selectedTodoItem.id).toBe(id);
+  }))
 });
