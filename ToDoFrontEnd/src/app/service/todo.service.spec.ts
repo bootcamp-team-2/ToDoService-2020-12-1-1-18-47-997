@@ -10,13 +10,13 @@ import { TodoService } from './todo.service';
 describe('TodoService', () => {
 
   let service: TodoService;
-  let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy };
+  let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy, put: jasmine.Spy, delete: jasmine.Spy };
   let todoStoreService: TodoStoreService;
   let todoHttpService: TodoHttpService;
 
 
   beforeEach(() => {
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put']);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
     todoStoreService = new TodoStoreService();
     todoHttpService = new TodoHttpService(<any>httpClientSpy);
 
@@ -86,17 +86,24 @@ describe('TodoService', () => {
 
 
 
-  it('should update todo-item', () => {
-    const updateTodoItem = service.todoItems[0];
+  it('should update todo-item', fakeAsync(() => {
+    // given
+    const orignalTodoItem = todoStoreService.GetAll()[0];
+    const updateTodoItem = todoStoreService.GetAll()[0];
     updateTodoItem.description = "updated description";
     updateTodoItem.title = "updated title";
     updateTodoItem.isDone = true;
+
+    httpClientSpy.put.and.returnValue(of(updateTodoItem));
+    // when
     service.UpdateTodoItem(updateTodoItem);
-    expect(service.todoItems.length).toBe(5);
-    expect(service.todoItems[0].description).toBe(updateTodoItem.description);
-    expect(service.todoItems[0].title).toBe(updateTodoItem.title);
-    expect(service.todoItems[0].isDone).toBe(updateTodoItem.isDone);
-  });
+    tick(50);
+    // then
+    expect(httpClientSpy.put.calls.count()).toBe(1,"one call");
+    expect(orignalTodoItem.description).toBe(updateTodoItem.description);
+    expect(orignalTodoItem.title).toBe(updateTodoItem.title);
+    expect(orignalTodoItem.isDone).toBe(updateTodoItem.isDone);
+  }));
 
   it('should delete todo item', () => {
     const id = service.todoItems[0].id;

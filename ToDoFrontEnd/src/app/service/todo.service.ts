@@ -56,8 +56,9 @@ export class TodoService {
 
   }
 
-  public UpdateTodoItem(updateTodoItems: ToDoItem): void {
-    this.todoStore.Update(updateTodoItems);
+  public UpdateTodoItem( updatingToDoItem: ToDoItem): void {
+    this.todoHttpService.Put(updatingToDoItem).subscribe(todoItem => {
+      console.log(todoItem); this.postFailMessage = ''; });
   }
 
   public DeleteTodoItem(id: number): void{
