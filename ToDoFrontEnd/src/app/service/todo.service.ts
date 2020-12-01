@@ -39,11 +39,13 @@ export class TodoService {
   }
 
   public SetUpdatingTodoItemId(id: number): void {
-    const foundTodoItem = this.todoStore.FindById(id);
+    this.todoHttpService.GetById(id).subscribe(toDoItem => {
+      this.updatingToDoItem = toDoItem;
+    });
 
-    if (foundTodoItem !== undefined) {
-      this.updatingToDoItem = Object.assign({}, foundTodoItem);
-    }
+    // if (foundTodoItem !== undefined) {
+    //   this.updatingToDoItem = Object.assign({}, foundTodoItem);
+    // }
   }
 
   public Create(todoItem: ToDoItem) {
