@@ -5,7 +5,7 @@ import { ListTodoitemComponent } from './list-todoitem/list-todoitem.component';
 import { TodoitemDetailComponent } from './todoitem-detail/todoitem-detail.component';
 import { UpdateTodoItemComponent } from './update-todo-item/update-todo-item.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', component: ListTodoitemComponent },
   { path: 'create', component: CreateTodoitemComponent },
   { path: 'detail/:id', component: TodoitemDetailComponent },
