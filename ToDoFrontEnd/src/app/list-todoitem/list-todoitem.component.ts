@@ -24,7 +24,6 @@ export class ListTodoitemComponent implements OnInit {
 
   public updateTodoItem(id: number): void {
     this.route.navigate(['edit', id]);
-    // this.todoService.SetUpdatingTodoItemId(id);
   }
 
   public deleteTodoItem(id: number): void {

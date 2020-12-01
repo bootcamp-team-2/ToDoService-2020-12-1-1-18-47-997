@@ -41,7 +41,7 @@ export class TodoService {
   public SetUpdatingTodoItemId(id: number): void {
     this.todoHttpService.GetById(id).subscribe(
       item => {
-        this.selectedTodoItem = item;
+        this.updatingToDoItem = item;
         console.log(item); this.selectFailMessage = '';
       },
       error => { this.selectFailMessage = 'Select fail because select api error' });
