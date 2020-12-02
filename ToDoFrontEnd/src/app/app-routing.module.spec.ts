@@ -48,4 +48,10 @@ describe("Router", () => {
     expect(location.path()).toBe("/detail/1");
   }));
 
+  it('navigate "delete/1" to redirects you to "/delete/1"', fakeAsync(() =>{
+    router.navigate(["delete/1"]);
+    tick(50);
+    expect(location.path()).toBe("/delete/1");
+  }));
+
 });
