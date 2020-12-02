@@ -27,12 +27,7 @@ export class CreateTodoitemComponent implements OnInit {
       this.router.routeReuseStrategy.shouldReuseRoute = function () {
         return false;
       };
-      this.router.onSameUrlNavigation = 'reload';
       this.router.navigate(['']);
     }
-  }
-
-  public get failMessage(): string {
-    return this.todoService.failMessage;
   }
 }

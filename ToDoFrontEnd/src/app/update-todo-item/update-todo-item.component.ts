@@ -22,9 +22,12 @@ export class UpdateTodoItemComponent implements OnInit {
 
   public updateTodoItem(): void{
     this.todoItemService.UpdateTodoItem(this.todoItemService.updatingToDoItem);
-  }
-
-  public get errorMessage(): string {
-    return this.todoItemService.failMessage;
+    if(this.todoItemService.failMessage === '')
+    {
+      this.router.routeReuseStrategy.shouldReuseRoute = function () {
+        return false;
+      };
+      this.router.navigate(['']);
+    }
   }
 }

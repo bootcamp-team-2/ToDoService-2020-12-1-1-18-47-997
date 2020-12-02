@@ -16,8 +16,4 @@ export class TodoitemDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.todoService.SetSelectedTodoItemId(Number(id));
   }
-
-  public get errorMessage(): string {
-    return this.todoService.failMessage;
-  }
 }
