@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { ToDoItem } from '../model/ToDoItem';
 import { TodoService } from '../service/todo.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-list-todoitem',
@@ -12,7 +14,7 @@ export class ListTodoitemComponent implements OnInit {
 
   public toDoItems: ToDoItem[]
 
-  constructor(private todoService: TodoService) {
+  constructor(public todoService: TodoService, private route: Router) {
     this.toDoItems = [];
   }
 
@@ -21,14 +23,21 @@ export class ListTodoitemComponent implements OnInit {
   }
 
   public updateTodoItem(id: number): void {
-    this.todoService.SetUpdatingTodoItemId(id);
+    this.route.navigate(['/edit', id]);
   }
 
   public deleteTodoItem(id: number): void {
     this.todoService.DeleteTodoItem(id);
+    if (this.todoService.deleteFailMessage === '') {
+      this.route.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.route.onSameUrlNavigation = 'reload';
+      this.route.navigate(['']);
+    }
   }
 
   public selectTodoItem(id: number): void {
     this.todoService.SetSelectedTodoItemId(id);
+    this.route.navigate(['/detail', id]);
   }
+
 }
