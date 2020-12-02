@@ -77,7 +77,7 @@ describe('TodoService', () => {
     service.Create(newTodoItem);
     tick(50);
     //then
-    expect(service.getAllFailMessage).toBe("post all because webapi error");
+    expect(service.postAllFailMessage).toBe("post all because webapi error");
   }));
 
   it('should update todo-item via mock', () => {
@@ -101,7 +101,7 @@ describe('TodoService', () => {
     service.UpdateTodoItem(newTodoItem);
     tick(50);
     //then
-    expect(service.getAllFailMessage).toBe("update all because webapi error");
+    expect(service.updateAllFailMessage).toBe("update all because webapi error");
   }));
 
   it('should delete todo item', () => {
@@ -134,7 +134,7 @@ describe('TodoService', () => {
     service.DeleteTodoItem(1);
     tick(100);
     //then
-    expect(service.getAllFailMessage).toBe("delete all because webapi error");
+    expect(service.deleteAllFailMessage).toBe("delete all because webapi error");
   }));
 
 
