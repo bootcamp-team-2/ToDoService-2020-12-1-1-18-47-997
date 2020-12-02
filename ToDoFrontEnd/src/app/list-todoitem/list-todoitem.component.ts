@@ -27,7 +27,8 @@ export class ListTodoitemComponent implements OnInit {
   }
 
   public deleteTodoItem(id: number): void {
-    this.todoService.DeleteTodoItem(id);
+    this.router.navigate(['']);
+    // this.todoService.DeleteTodoItem(id);
   }
 
   public selectTodoItem(id: number): void {

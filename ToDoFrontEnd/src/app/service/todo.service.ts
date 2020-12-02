@@ -59,7 +59,7 @@ export class TodoService {
 
   public DeleteTodoItem(id: number) {
     this.todoHttpService.Delete(id).subscribe(() => this.getAllFailMessage = '' ,
-      error => this.getAllFailMessage = 'get specific because webapi error'
+      error => this.getAllFailMessage = 'delete all because webapi error'
     );
   }
 
