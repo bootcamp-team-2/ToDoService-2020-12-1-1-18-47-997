@@ -1,12 +1,8 @@
 <div>
-  <span><a href="">Index</a></span>
-  <span><a href="/create">Create ToDoItem</a></span>
+  <span><a routerLink="">Index</a></span>
+  <span><a routerLink="/create">Create ToDoItem</a></span>
+  <span><a routerLink="/edit">Edit ToDoItem</a></span>
+  <span><a routerLink="/detail">ToDoItem Detail</a></span>
 </div>
 
-<app-list-todoitem></app-list-todoitem>
-
-<app-create-todoitem></app-create-todoitem>
-
-<app-update-todo-item></app-update-todo-item>
-
-<app-todoitem-detail></app-todoitem-detail>
+<router-outlet></router-outlet>
