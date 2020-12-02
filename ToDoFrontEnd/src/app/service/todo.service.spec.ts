@@ -9,13 +9,13 @@ import { TodoService } from './todo.service';
 describe('TodoService', () => {
 
   let service: TodoService;
-  let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy, put: jasmine.Spy };
+  let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy, put: jasmine.Spy, delete: jasmine.Spy };
   let todoStoreService: TodoStoreService;
   let todoHttpService: TodoHttpService;
 
   beforeEach(() => {
     // TODO: spy on other methods too
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put']);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
     todoStoreService = new TodoStoreService();
     todoHttpService = new TodoHttpService(<any>(httpClientSpy));
 
@@ -105,9 +105,12 @@ describe('TodoService', () => {
   }));
 
   it('should delete todo item', () => {
-    const id = service.todoItems[0].id;
-    service.DeleteTodoItem(id);
-    expect(service.todoItems.length).toBe(4);
+    const foundTodoItem = todoStoreService.FindById(1);
+    httpClientSpy.delete.and.returnValue(of(foundTodoItem));
+    service.DeleteTodoItem(1);
+
+    // then
+    expect(httpClientSpy.delete.calls.count()).toBe(1, "one call");
   });
 
   it('should get special todo item via mock', () => {
